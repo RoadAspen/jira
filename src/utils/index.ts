@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-export const isFalsely = (value) => {
+export const isFalsely = (value: any) => {
   return !value ? true : false;
 };
 
 // 负责清除 value为空的key
-export const cleanObject = (object) => {
+export const cleanObject = (object: { [x: string]: any }) => {
   const result = { ...object };
 
   Object.keys(result).forEach((key) => {
@@ -17,16 +17,16 @@ export const cleanObject = (object) => {
 };
 
 // 在页面刚加载的时候执行一个函数
-export const useMount = (callback) => {
+export const useMount = (callback: any) => {
   useEffect(() => {
     callback();
-  }, []);
+  });
 };
 
 // debounce
-export const debounce = (func, delay) => {
-  let timer = null;
-  return (...params) => {
+export const debounce = (func: (...params: any) => void, delay: number) => {
+  let timer: any;
+  return (...params: any) => {
     if (timer) {
       clearTimeout(timer);
       timer = null;
@@ -38,7 +38,7 @@ export const debounce = (func, delay) => {
 };
 
 // useDebounce
-export const useDebounce = (value, delay) => {
+export const useDebounce = (value: any, delay: number) => {
   const [debounceValue, setDebounceValue] = useState(value);
   useEffect(() => {
     console.log("准备定义timeeout");
@@ -53,7 +53,6 @@ export const useDebounce = (value, delay) => {
     // 取消当前的timeout
     return () => {
       clearTimeout(timeout);
-      timeout = null;
     };
   }, [value, delay]);
   return debounceValue;
