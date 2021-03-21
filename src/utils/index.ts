@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-export const isFalsely = (value: any) => {
+export const isFalsely = (value: unknown) => {
   return !value ? true : false;
 };
 
 // 负责清除 value为空的key
-export const cleanObject = (object: { [x: string]: any }) => {
+export const cleanObject = (object: { [x: string]: unknown }) => {
   const result = { ...object };
 
   Object.keys(result).forEach((key) => {
@@ -17,10 +17,11 @@ export const cleanObject = (object: { [x: string]: any }) => {
 };
 
 // 在页面刚加载的时候执行一个函数
-export const useMount = (callback: any) => {
+export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 };
 
 // debounce
@@ -38,7 +39,7 @@ export const debounce = (func: (...params: any) => void, delay: number) => {
 };
 
 // useDebounce
-export const useDebounce = (value: any, delay: number) => {
+export const useDebounce = <T>(value: T, delay: number) => {
   const [debounceValue, setDebounceValue] = useState(value);
   useEffect(() => {
     console.log("准备定义timeeout");
@@ -46,14 +47,13 @@ export const useDebounce = (value: any, delay: number) => {
     let timeout = setTimeout(() => {
       console.log("更新");
       console.log(debounceValue === value);
-      setDebounceValue({
-        ...value,
-      });
+      setDebounceValue(value);
     }, delay);
     // 取消当前的timeout
     return () => {
       clearTimeout(timeout);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, delay]);
   return debounceValue;
 };
