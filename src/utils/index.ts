@@ -59,20 +59,19 @@ export const useDebounce = <T>(value: T, delay: number) => {
 };
 
 // useArray
-export const useArray = <T>(value: T[]) => {
-  const [state, setState] = useState(value);
+export const useArray = <T>(initicalValue: T[]) => {
+  const [value, setValue] = useState(initicalValue);
 
   function add(v: T) {
-    setState((value) => ([] as T[]).concat(value, v));
+    setValue((value) => ([] as T[]).concat(value, v));
   }
   function clear() {
-    setState([]);
+    setValue([]);
   }
   function removeIndex(num: number) {
-    setState((value) => {
-      value.splice(num, 1);
-      return [...value];
-    });
+    const copy = [...value];
+    copy.splice(num, 1);
+    setValue([...copy]);
   }
-  return { value: state, add: add, clear: clear, removeIndex };
+  return { value: value, add: add, clear: clear, removeIndex };
 };

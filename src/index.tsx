@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "index.css";
 import App from "App";
 import reportWebVitals from "reportWebVitals";
-
+// StrictMode 在开发模式下会多更新一遍
 ReactDOM.render(
   <React.StrictMode>
     <App />

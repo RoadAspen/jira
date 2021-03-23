@@ -3,6 +3,7 @@ import ProjectList from "./ProjectList";
 import SearchForm from "./SearchForm";
 import qs from "qs";
 import { cleanObject, useDebounce, useMount, useArray } from "../utils/index";
+import { LoginScreen } from "./login";
 const apiurl = process.env.REACT_APP_API_URL;
 function Index() {
   const [params, setParams] = useState({
@@ -47,7 +48,8 @@ function Index() {
 
   return (
     <div>
-      <SearchForm params={params} setParams={setParams} users={users} />
+      <LoginScreen />
+      {/* <SearchForm params={params} setParams={setParams} users={users} />
       <ProjectList list={list} users={users} />
       <div>
         <button onClick={() => add({ name: "join", age: 22 })}>add join</button>
@@ -60,7 +62,7 @@ function Index() {
             <span>{person.age}</span>
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
