@@ -1,12 +1,13 @@
-interface Params {
+export interface Params {
   name: string;
   personId: string;
 }
-interface User {
+export interface User {
+  token: string;
   id: number;
   name: string;
 }
-interface ProjectProps {
+export interface ProjectProps {
   params: Params;
   users: User[];
   setParams: React.Dispatch<

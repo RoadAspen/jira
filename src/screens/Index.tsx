@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import ProjectList from "./ProjectList";
-import SearchForm from "./SearchForm";
+import ProjectList from "./project-list/project-list";
+import SearchForm from "./project-list/search-panel";
 import qs from "qs";
 import { cleanObject, useDebounce, useMount, useArray } from "../utils/index";
 import { LoginScreen } from "./login";

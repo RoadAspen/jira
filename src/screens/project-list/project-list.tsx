@@ -1,9 +1,10 @@
-interface List {
+export interface List {
   id: number;
   name: string;
   personId: number;
 }
-interface User {
+export interface User {
+  token: string;
   id: number;
   name: string;
 }
