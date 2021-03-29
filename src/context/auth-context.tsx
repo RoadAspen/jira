@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import * as auth from "auth-provider";
 import { User } from "screens/project-list/search-panel";
 interface AuthForm {
   username: string;
   password: string;
 }
+// 创建一个 context
 const AuthContext = React.createContext<
   | {
       user: User | null;
@@ -15,16 +16,11 @@ const AuthContext = React.createContext<
   | undefined
 >(undefined);
 
+// displayName  用于 devOpts
 AuthContext.displayName = "AuthContext";
-export const AuthProvider = (props: {
-  children:
-    | boolean
-    | React.ReactChild
-    | React.ReactFragment
-    | React.ReactPortal
-    | null
-    | undefined;
-}) => {
+
+// AuthProvider
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   // point free  消参
@@ -33,15 +29,18 @@ export const AuthProvider = (props: {
   const logout = () => auth.logout().then(() => setUser(null));
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
-      {props.children}
-    </AuthContext.Provider>
+    <AuthContext.Provider
+      children={children}
+      value={{ user, login, register, logout }}
+    />
   );
 };
 
+// 封装hooks
 export const useAuth = () => {
   const context = React.useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth 必须在 AuthProvider中使用");
   }
+  return context;
 };

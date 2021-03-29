@@ -1,27 +1,29 @@
-import React, { FormEvent } from "react";
-const apiurl = process.env.REACT_APP_API_URL;
+import { useAuth } from "context/auth-context";
+import React, { useRef } from "react";
+
+interface Window {
+  aaa: { [field: string]: any };
+}
+// 登录
 export const LoginScreen = () => {
-  const login = (param: { username: string; password: string }) => {
-    fetch(`${apiurl}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(param),
-    }).then(async (response) => {
-      if (response.ok) {
-        await response.json();
-      }
-    });
-  };
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const { login, user, register } = useAuth();
+  // 使用ref，获取真实dom，或者组件本身
+  const forms = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const username = (event.currentTarget.elements[0] as HTMLFormElement).value;
-    const password = (event.currentTarget.elements[1] as HTMLFormElement).value;
+    let username, password;
+    if (forms && forms.current) {
+      username = (forms.current.elements[0] as HTMLFormElement).value;
+      password = (forms.current.elements[1] as HTMLFormElement).value;
+    }
+    // const username = (event.currentTarget.elements[0] as HTMLFormElement).value;
+    // const password = (event.currentTarget.elements[1] as HTMLFormElement).value;
     login({ username, password });
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} ref={forms}>
+      {user ? `登陆成功，用户名：${user.name}` : null}
       <div>
         <label htmlFor="username">用户名</label>
         <input type="text" name="usernmae" id="username" />

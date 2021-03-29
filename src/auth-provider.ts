@@ -5,12 +5,13 @@ import { User } from "screens/project-list/search-panel";
 const localStorageKey = "__auth_provider_token__";
 
 export const getToken = () => window.localStorage.getItem(localStorageKey);
-
+// 注册成功，在localstorage中存储
 export const handleUserResponse = ({ user }: { user: User }) => {
   window.localStorage.setItem(localStorageKey, user.token || "");
   return user;
 };
 const apiurl = process.env.REACT_APP_API_URL;
+// 登录
 export const login = (data: { username: string; password: string }) => {
   return fetch(`${apiurl}/login`, {
     method: "POST",
@@ -27,8 +28,9 @@ export const login = (data: { username: string; password: string }) => {
   });
 };
 
+// 注册
 export const register = (data: { username: string; password: string }) => {
-  return fetch(`${apiurl}/registr`, {
+  return fetch(`${apiurl}/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -43,6 +45,7 @@ export const register = (data: { username: string; password: string }) => {
   });
 };
 
+// 登出
 export const logout = async () => {
   window.localStorage.removeItem(localStorageKey);
 };
