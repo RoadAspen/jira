@@ -1,5 +1,8 @@
+/**
+ * 负责 登录和注册的用户信息
+ */
 import React, { ReactNode, useState } from "react";
-import * as auth from "auth-provider";
+import * as auth from "context/auth-provider";
 import { User } from "screens/project-list/search-panel";
 interface AuthForm {
   username: string;
@@ -36,7 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// 封装hooks
+// 封装hooks，返回 context中的value值
 export const useAuth = () => {
   const context = React.useContext(AuthContext);
   if (!context) {

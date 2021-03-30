@@ -12,7 +12,7 @@ interface ProjectProps {
   list: List[];
   users: User[];
 }
-function ProjectList({ list, users }: ProjectProps) {
+export function ProjectListScreen({ list, users }: ProjectProps) {
   return (
     <table>
       <thead>
@@ -37,4 +37,3 @@ function ProjectList({ list, users }: ProjectProps) {
     </table>
   );
 }
-export default ProjectList;
