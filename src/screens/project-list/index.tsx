@@ -4,10 +4,8 @@
 import { useState, useEffect } from "react";
 import { ProjectListScreen } from "./project-list";
 import SearchForm from "./search-panel";
-import qs from "qs";
 import { cleanObject, useDebounce, useMount } from "utils/index";
 import { useHttp } from "utils/http";
-const apiurl = process.env.REACT_APP_API_URL;
 function Index() {
   const [params, setParams] = useState({
     name: "",
