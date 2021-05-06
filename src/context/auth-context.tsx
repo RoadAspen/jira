@@ -10,7 +10,7 @@ interface AuthForm {
   username: string;
   password: string;
 }
-// 刷新,如果有token，则请求user信息，返回null
+// 刷新页面,如果有token，则请求user信息，返回null
 const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();
