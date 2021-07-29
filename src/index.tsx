@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "index.css";
+// import "index.css";
 // 引入antd.less,需要修改less变量可以修改主题颜色。
 import "antd/dist/antd.less";
 import App from "App";

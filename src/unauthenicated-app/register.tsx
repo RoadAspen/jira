@@ -1,5 +1,6 @@
 import { Form, Input, Button } from "antd";
 import { useAuth } from "context/auth-context";
+import { LoginButton } from "unauthenicated-app";
 
 // 登录
 export const RegisterScreen = () => {
@@ -25,9 +26,9 @@ export const RegisterScreen = () => {
         <Input placeholder={"密码"} type="password" id={"password"} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType="submit" type={"primary"}>
+        <LoginButton htmlType="submit" type={"primary"}>
           注册
-        </Button>
+        </LoginButton>
       </Form.Item>
     </Form>
   );
