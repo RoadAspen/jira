@@ -5,13 +5,14 @@ import ReactDOM from "react-dom";
 import "antd/dist/antd.less";
 import App from "App";
 import reportWebVitals from "reportWebVitals";
-import { loadDevTools } from "jira-dev-tool";
+import { DevTools, loadServer } from "jira-dev-tool";
 import { AppProviders } from "context";
 // StrictMode 在开发模式下会多更新一遍
-loadDevTools(() =>
+loadServer(() =>
   ReactDOM.render(
     <React.StrictMode>
       <AppProviders>
+        <DevTools />
         <App />
       </AppProviders>
     </React.StrictMode>,

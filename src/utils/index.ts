@@ -2,14 +2,16 @@ import { useState, useEffect } from "react";
 export const isFalsely = (value: unknown) => {
   return !value ? true : false;
 };
-
+export const isVoid = (value: unknown) => {
+  return value === undefined || value === null || value === "";
+};
 // 负责清除 value为空的key
-export const cleanObject = (object: { [x: string]: unknown }) => {
+export const cleanObject = (object: { [key: string]: unknown }) => {
   const result = { ...object };
 
   Object.keys(result).forEach((key) => {
     const value = object[key];
-    if (isFalsely(value)) {
+    if (isVoid(value)) {
       delete result[key];
     }
   });

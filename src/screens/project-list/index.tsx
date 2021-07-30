@@ -1,43 +1,34 @@
 /**
  * 筛选列表
  */
-import { useState, useEffect } from "react";
-import { ProjectListScreen } from "./project-list";
-import SearchPanel from "./search-panel";
-import { cleanObject, useDebounce, useMount } from "utils/index";
-import { useHttp } from "utils/http";
+import { useState } from "react";
+import { Project, ProjectListScreen } from "./project-list";
+import SearchPanel, { Params } from "./search-panel";
+import { useDebounce } from "utils/index";
 import styled from "@emotion/styled";
+import { Typography } from "antd";
+import { useProjects } from "utils/project";
+import { useUsers } from "utils/user";
 function Index() {
-  const [params, setParams] = useState({
+  const [params, setParams] = useState<Params>({
     name: "",
-    personId: "",
   });
-  // user list
-  const [users, setUsers] = useState([]);
 
-  // project list
-  const [list, setList] = useState([]);
-
-  const client = useHttp();
   const debounceParams = useDebounce(params, 1000);
-  useMount(() => {
-    client("users", {}).then((response) => {
-      setUsers(response);
-    });
-  });
-  useEffect(() => {
-    client("projects", {
-      data: cleanObject(debounceParams),
-    }).then((response) => {
-      setList(response);
-    });
-  }, [debounceParams]);
-
+  const { data: list, error, isLoading } = useProjects(debounceParams || {});
+  const { data: users } = useUsers();
   return (
     <Container>
       <h1>项目列表</h1>
-      <SearchPanel params={params} setParams={setParams} users={users} />
-      <ProjectListScreen list={list} users={users} />
+      <SearchPanel params={params} setParams={setParams} users={users || []} />
+      {error ? (
+        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+      ) : null}
+      <ProjectListScreen
+        dataSource={list || []}
+        users={users || []}
+        loading={isLoading}
+      />
     </Container>
   );
 }

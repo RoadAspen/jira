@@ -1,7 +1,7 @@
 import { Form, Input, Select } from "antd";
 export interface Params {
   name: string;
-  personId: string;
+  personId?: number;
 }
 export interface User {
   token: string;
@@ -37,12 +37,15 @@ function SearchPanel({ params, setParams, users = [] }: ProjectProps) {
               personId: value,
             })
           }
+          style={{ width: 150 }}
+          placeholder={"选择人员筛选"}
+          allowClear
         >
           {users.map((user) => {
             return (
-              <option value={user.id} key={user.id}>
+              <Select.Option value={user.id} key={user.id}>
                 {user.name}
-              </option>
+              </Select.Option>
             );
           })}
         </Select>

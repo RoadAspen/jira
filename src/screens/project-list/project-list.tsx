@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
 import { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
 import { User } from "./search-panel";
@@ -11,11 +11,11 @@ export interface Project {
   organization: string;
   created: number;
 }
-interface ListProps {
-  list: Project[];
+interface ListProps extends TableProps<Project> {
+  dataSource: Project[];
   users: User[];
 }
-export function ProjectListScreen({ list, users }: ListProps) {
+export function ProjectListScreen({ users, ...props }: ListProps) {
   const columns: ColumnsType<Project> = [
     {
       title: "名称",
@@ -50,8 +50,8 @@ export function ProjectListScreen({ list, users }: ListProps) {
   ];
   return (
     <Table
+      {...props}
       pagination={false}
-      dataSource={list}
       columns={columns}
       rowKey={(record) => record.id}
     />
