@@ -3,9 +3,10 @@
  */
 import { useState, useEffect } from "react";
 import { ProjectListScreen } from "./project-list";
-import SearchForm from "./search-panel";
+import SearchPanel from "./search-panel";
 import { cleanObject, useDebounce, useMount } from "utils/index";
 import { useHttp } from "utils/http";
+import styled from "@emotion/styled";
 function Index() {
   const [params, setParams] = useState({
     name: "",
@@ -33,11 +34,16 @@ function Index() {
   }, [debounceParams]);
 
   return (
-    <div>
-      <SearchForm params={params} setParams={setParams} users={users} />
+    <Container>
+      <h1>项目列表</h1>
+      <SearchPanel params={params} setParams={setParams} users={users} />
       <ProjectListScreen list={list} users={users} />
-    </div>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;
 
 export default Index;
