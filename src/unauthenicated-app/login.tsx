@@ -18,12 +18,7 @@ export const LoginScreen = ({ onError }: LoginScreenProps) => {
   const handleSubmit = async (values: {
     username: string;
     password: string;
-    cpassword: string;
   }) => {
-    if (values.password !== values.cpassword) {
-      onError?.(new Error("请确认两次输入的密码相同"));
-      return;
-    }
     try {
       await run(login(values));
     } catch (e) {
@@ -46,12 +41,7 @@ export const LoginScreen = ({ onError }: LoginScreenProps) => {
       >
         <Input placeholder={"密码"} type="password" />
       </Form.Item>
-      <Form.Item
-        name={"cpassword"}
-        rules={[{ required: true, message: "请再次输入密码" }]}
-      >
-        <Input placeholder={"请再次输入密码"} type="password" />
-      </Form.Item>
+
       <Form.Item>
         <LoginButton htmlType="submit" type={"primary"} loading={isLoading}>
           登录

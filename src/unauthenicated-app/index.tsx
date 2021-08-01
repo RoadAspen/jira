@@ -1,5 +1,5 @@
 import { Button, Card, Divider, Typography } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import { LoginScreen } from "./login";
 import { RegisterScreen } from "./register";
 import styled from "@emotion/styled";
@@ -14,6 +14,13 @@ export const UnauthicatedApp = () => {
       <Header />
       <Background />
       <ShadowCard>
+        <Button
+          onClick={() => {
+            throw new Error("点击抛出异常");
+          }}
+        >
+          抛出异常
+        </Button>
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
         {error ? (
           <Typography.Text type={"danger"}>{error?.message}</Typography.Text>

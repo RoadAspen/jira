@@ -1,4 +1,3 @@
-import { Project } from "screens/project-list/project-list";
 import { User } from "screens/project-list/search-panel";
 import { useMount } from "utils";
 import { useHttp } from "./http";

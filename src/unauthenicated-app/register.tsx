@@ -7,7 +7,7 @@ interface RegisterScreenProps {
   onError?: (error: Error | null) => void;
 }
 // 登录
-export const RegisterScreen = (props: RegisterScreenProps) => {
+export const RegisterScreen = ({ onError }: RegisterScreenProps) => {
   // register 中调用了 setUser
   const { register } = useAuth();
 
@@ -17,11 +17,17 @@ export const RegisterScreen = (props: RegisterScreenProps) => {
   const handleSubmit = async (values: {
     username: string;
     password: string;
+    cpassword: string;
   }) => {
+    if (values.password !== values.cpassword) {
+      onError?.(new Error("请确认两次输入的密码相同"));
+      return;
+    }
     try {
       await run(register(values));
-    } catch (error) {
-      props.onError?.(error);
+    } catch (e) {
+      console.log(e);
+      onError?.(e);
     }
   };
   return (
@@ -37,6 +43,12 @@ export const RegisterScreen = (props: RegisterScreenProps) => {
         rules={[{ required: true, message: "请输入密码" }]}
       >
         <Input placeholder={"密码"} type="password" id={"password"} />
+      </Form.Item>
+      <Form.Item
+        name={"cpassword"}
+        rules={[{ required: true, message: "请再次输入密码" }]}
+      >
+        <Input placeholder={"请再次输入密码"} type="password" />
       </Form.Item>
       <Form.Item>
         <LoginButton loading={isLoading} htmlType="submit" type={"primary"}>
