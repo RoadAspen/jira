@@ -2,11 +2,14 @@ import { useAuth } from "context/auth-context";
 import { Form, Input, Typography } from "antd";
 import { LoginButton } from "unauthenicated-app";
 import { useAsync } from "utils/use-async";
+import { useDocumenTitle } from "utils";
 interface LoginScreenProps {
   onError?: (error: Error) => void;
 }
 // 登录
 export const LoginScreen = ({ onError }: LoginScreenProps) => {
+  useDocumenTitle("登录");
+
   // 在 login 内部 调用了 setUser
   const { login, user } = useAuth();
 

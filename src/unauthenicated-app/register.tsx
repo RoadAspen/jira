@@ -1,6 +1,7 @@
 import { Form, Input } from "antd";
 import { useAuth } from "context/auth-context";
 import { LoginButton } from "unauthenicated-app";
+import { useDocumenTitle } from "utils";
 import { useAsync } from "utils/use-async";
 
 interface RegisterScreenProps {
@@ -8,6 +9,7 @@ interface RegisterScreenProps {
 }
 // 登录
 export const RegisterScreen = ({ onError }: RegisterScreenProps) => {
+  useDocumenTitle("注册账户");
   // register 中调用了 setUser
   const { register } = useAuth();
 
@@ -26,7 +28,6 @@ export const RegisterScreen = ({ onError }: RegisterScreenProps) => {
     try {
       await run(register(values));
     } catch (e) {
-      console.log(e);
       onError?.(e);
     }
   };

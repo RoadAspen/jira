@@ -4,12 +4,13 @@
 import { useState } from "react";
 import { Project, ProjectListScreen } from "./project-list";
 import SearchPanel, { Params } from "./search-panel";
-import { useDebounce } from "utils/index";
+import { useDebounce, useDocumenTitle } from "utils/index";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 function Index() {
+  useDocumenTitle("项目列表");
   const [params, setParams] = useState<Params>({
     name: "",
   });

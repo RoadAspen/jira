@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 export const isFalsely = (value: unknown) => {
   return !value ? true : false;
 };
@@ -76,4 +76,20 @@ export const useArray = <T>(initicalValue: T[]) => {
     setValue([...copy]);
   }
   return { value: value, add: add, clear: clear, removeIndex };
+};
+
+// 修改 页面标题
+
+export const useDocumenTitle = (title: string) => {
+  const oldTitle = useRef(document.title);
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
+  // useEffect(() => {
+  //   return () => {
+  //     document.title = oldTitle.current;
+  //   };
+  // }, []);
 };
