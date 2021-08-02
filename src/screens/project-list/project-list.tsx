@@ -1,6 +1,7 @@
 import { Table, TableProps } from "antd";
 import { ColumnsType } from "antd/es/table";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 import { User } from "./search-panel";
 
 export interface Project {
@@ -21,6 +22,9 @@ export function ProjectListScreen({ users, ...props }: ListProps) {
       title: "名称",
       dataIndex: "name",
       key: "name",
+      render(value, project) {
+        return <Link to={`/${project.id}`}>{value}</Link>;
+      },
     },
     {
       title: "部门",
