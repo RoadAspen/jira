@@ -23,7 +23,7 @@ export function ProjectListScreen({ users, ...props }: ListProps) {
       dataIndex: "name",
       key: "name",
       render(value, project) {
-        return <Link to={`/${project.id}`}>{value}</Link>;
+        return <Link to={`/projects/${project.id}`}>{value}</Link>;
       },
     },
     {
@@ -35,7 +35,8 @@ export function ProjectListScreen({ users, ...props }: ListProps) {
       title: "负责人",
       render: (value, project) => {
         return (
-          users.find((user) => user.id === project.personId)?.name || "未知"
+          users.find((user) => user.id === Number(project.personId))?.name ||
+          "未知"
         );
       },
     },

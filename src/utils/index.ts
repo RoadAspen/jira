@@ -81,15 +81,7 @@ export const useArray = <T>(initicalValue: T[]) => {
 // 修改 页面标题
 
 export const useDocumenTitle = (title: string) => {
-  const oldTitle = useRef(document.title);
-
   useEffect(() => {
     document.title = title;
   }, [title]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     document.title = oldTitle.current;
-  //   };
-  // }, []);
 };

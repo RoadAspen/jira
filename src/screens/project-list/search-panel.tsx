@@ -1,24 +1,22 @@
 import { Form, Input, Select } from "antd";
-export interface Params {
-  name: string;
-  personId?: number;
-}
+import { UserSelect } from "components/user-select";
+import { Project } from "./project-list";
 export interface User {
-  token: string;
   id: number;
+  token: string;
   name: string;
 }
-export interface ProjectProps {
-  params: Params;
+export interface SearchPanelProps {
+  params: Partial<Pick<Project, "name" | "personId">>;
   users: User[];
-  setParams: (param: Params) => void;
+  setParams: (param: SearchPanelProps["params"]) => void;
 }
-function SearchPanel({ params, setParams, users = [] }: ProjectProps) {
+function SearchPanel({ params, setParams, users = [] }: SearchPanelProps) {
   return (
     <Form style={{ marginBottom: "2rem" }} layout={"inline"}>
       <Form.Item>
         <Input
-          value={params.name}
+          value={params?.name || ""}
           placeholder="项目名"
           onChange={(e) =>
             setParams({
@@ -29,9 +27,10 @@ function SearchPanel({ params, setParams, users = [] }: ProjectProps) {
         />
       </Form.Item>
       <Form.Item>
-        <Select
-          value={params.personId}
-          onChange={(value) =>
+        <UserSelect
+          defaultOptionName="负责人"
+          value={params?.personId || undefined}
+          onChange={(value: number | undefined) =>
             setParams({
               ...params,
               personId: value,
@@ -40,15 +39,7 @@ function SearchPanel({ params, setParams, users = [] }: ProjectProps) {
           style={{ width: 150 }}
           placeholder={"选择人员筛选"}
           allowClear
-        >
-          {users.map((user) => {
-            return (
-              <Select.Option value={user.id} key={user.id}>
-                {user.name}
-              </Select.Option>
-            );
-          })}
-        </Select>
+        />
       </Form.Item>
     </Form>
   );
