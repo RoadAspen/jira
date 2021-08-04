@@ -13,8 +13,11 @@ function Index() {
   useDocumenTitle("项目列表");
   const [param, setParam] = useProjectSearchParams();
   const debounceParams = useDebounce(param, 1000);
-  const { data: list, error, isLoading } = useProjects(debounceParams || {});
+  const { data: list, error, isLoading, retry } = useProjects(
+    debounceParams || {}
+  );
   const { data: users } = useUsers();
+  console.log("更新了", list);
   return (
     <Container>
       <h1>项目列表</h1>
@@ -26,6 +29,7 @@ function Index() {
         dataSource={list || []}
         users={users || []}
         loading={isLoading}
+        refresh={retry}
       />
     </Container>
   );

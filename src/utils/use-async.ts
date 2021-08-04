@@ -25,6 +25,9 @@ export const useAsync = <D>(
     ...initialState,
   });
 
+  // useState直接传入函数的含义是： 惰性初始化
+  const [retry, setRetry] = useState(() => () => {});
+
   const setData = (data: D) =>
     setState({
       data,
@@ -39,13 +42,21 @@ export const useAsync = <D>(
       error: error,
     }));
 
-  const run = (promise: Promise<D>) => {
+  const run = (
+    promise: Promise<D>,
+    runConfig?: { retry: () => Promise<D> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error("请传入 Promise 类型数据");
     }
 
     setState({ ...state, stat: "loading" });
-
+    setRetry(() => () => {
+      console.log("object");
+      if (runConfig?.retry) {
+        run(runConfig?.retry(), runConfig);
+      }
+    });
     return promise
       .then((data) => {
         setData(data);
@@ -67,6 +78,7 @@ export const useAsync = <D>(
     run,
     setData,
     setError,
+    retry,
     ...state,
   };
 };
