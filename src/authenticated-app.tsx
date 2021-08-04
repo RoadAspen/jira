@@ -5,7 +5,7 @@ import { useAuth } from "context/auth-context";
 
 import styled from "@emotion/styled";
 import ProjectListScreen from "screens/project-list";
-import { Row } from "components/lib";
+import { ButtonNoPadding, Row } from "components/lib";
 import { ReactComponent as SoftwareLogo } from "./assets/software-logo.svg";
 import { Button, Dropdown, Menu } from "antd";
 import {
@@ -15,59 +15,78 @@ import {
   Navigate,
 } from "react-router-dom";
 import ProjectScreen from "screens/project";
+import { useState } from "react";
+import { ProjectModal } from "screens/project-list/project-modal";
+import { ProjectPopover } from "components/project-popover";
 
 export const AuthicatedApp = () => {
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
   return (
     <Container>
-      <PageHeader />
+      <PageHeader setProjectModalOpen={setProjectModalOpen} />
       <Main>
         <Router>
           <Routes>
-            <Route path="/projects" element={<ProjectListScreen />} />
+            <Route
+              path="/projects"
+              element={
+                <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+              }
+            />
             <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
             <Navigate to={window.location.pathname + "/projects"} />
           </Routes>
         </Router>
       </Main>
+      <ProjectModal
+        projectModalOpen={projectModalOpen}
+        onClose={() => setProjectModalOpen(false)}
+      />
     </Container>
   );
 };
 
-const PageHeader = () => {
-  const { logout, user } = useAuth();
-
+const PageHeader = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
+  const resetRoute = () => {
+    window.location.href = window.location.origin;
+  };
   return (
     <Header between={true}>
       <HeaderLeft gap={true} between={true}>
-        {/* <img src={SoftwareLogo} alt="" /> */}
-        <SoftwareLogo
-          width="10rem"
-          color="rgb(38,132,255)"
-          onClick={() => {
-            window.location.href = window.location.origin;
-          }}
-        />
-        <h2>项目</h2>
-        <h2>用户</h2>
+        <ButtonNoPadding onClick={resetRoute} type="link">
+          <SoftwareLogo width="10rem" color="rgb(38,132,255)" />
+        </ButtonNoPadding>
+        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="logout">
-                <Button type="link" onClick={logout}>
-                  登出
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
-        >
-          <Button type="link" onClick={(e) => e.preventDefault()}>
-            Hi, {user?.name}
-          </Button>
-        </Dropdown>
+        <User />
       </HeaderRight>
     </Header>
+  );
+};
+
+const User = () => {
+  const { logout, user } = useAuth();
+
+  return (
+    <Dropdown
+      overlay={
+        <Menu>
+          <Menu.Item key="logout">
+            <Button type="link" onClick={logout}>
+              登出
+            </Button>
+          </Menu.Item>
+        </Menu>
+      }
+    >
+      <Button type="link" onClick={(e) => e.preventDefault()}>
+        Hi, {user?.name}
+      </Button>
+    </Dropdown>
   );
 };
 /**

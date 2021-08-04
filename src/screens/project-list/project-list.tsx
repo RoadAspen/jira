@@ -1,5 +1,6 @@
-import { Table, TableProps } from "antd";
+import { Dropdown, Menu, Table, TableProps } from "antd";
 import { ColumnsType } from "antd/es/table";
+import { ButtonNoPadding } from "components/lib";
 import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
@@ -18,6 +19,7 @@ interface ListProps extends TableProps<Project> {
   dataSource: Project[];
   users: User[];
   refresh: () => void;
+  setProjectModalOpen: (isOpen: boolean) => void;
 }
 export function ProjectListScreen({ users, refresh, ...props }: ListProps) {
   const { mutate } = useEditProject();
@@ -63,6 +65,28 @@ export function ProjectListScreen({ users, refresh, ...props }: ListProps) {
           <span>
             {project.created ? dayjs(project.created).format("YYYY-MM-DD") : ""}
           </span>
+        );
+      },
+    },
+    {
+      render(value, project) {
+        return (
+          <Dropdown
+            overlay={
+              <Menu>
+                <Menu.Item key="edit">
+                  <ButtonNoPadding
+                    type="link"
+                    onClick={() => props.setProjectModalOpen(true)}
+                  >
+                    编辑
+                  </ButtonNoPadding>
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <ButtonNoPadding type="link">...</ButtonNoPadding>
+          </Dropdown>
         );
       },
     },

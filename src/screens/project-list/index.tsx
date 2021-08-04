@@ -5,11 +5,12 @@ import { ProjectListScreen } from "./project-list";
 import SearchPanel from "./search-panel";
 import { useDebounce, useDocumenTitle } from "utils/index";
 import styled from "@emotion/styled";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/user";
 import { useProjectSearchParams } from "./util";
-function Index() {
+import { Row } from "components/lib";
+function Index(props: { setProjectModalOpen: (isOpen: boolean) => void }) {
   useDocumenTitle("项目列表");
   const [param, setParam] = useProjectSearchParams();
   const debounceParams = useDebounce(param, 1000);
@@ -17,10 +18,14 @@ function Index() {
     debounceParams || {}
   );
   const { data: users } = useUsers();
-  console.log("更新了", list);
   return (
     <Container>
-      <h1>项目列表</h1>
+      <Row between={true}>
+        <h1>项目列表</h1>
+        <Button onClick={() => props.setProjectModalOpen(true)}>
+          创建项目
+        </Button>
+      </Row>
       <SearchPanel params={param} setParams={setParam} users={users || []} />
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
@@ -30,6 +35,7 @@ function Index() {
         users={users || []}
         loading={isLoading}
         refresh={retry}
+        setProjectModalOpen={props.setProjectModalOpen}
       />
     </Container>
   );

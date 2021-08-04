@@ -6,11 +6,11 @@ export const isVoid = (value: unknown) => {
   return value === undefined || value === null || value === "";
 };
 // 负责清除 value为空的key
-export const cleanObject = (object: { [key: string]: unknown }) => {
+export const cleanObject = (object?: { [key: string]: unknown }) => {
   const result = { ...object };
 
   Object.keys(result).forEach((key) => {
-    const value = object[key];
+    const value = object?.[key];
     if (isVoid(value)) {
       delete result[key];
     }
@@ -44,7 +44,6 @@ export const debounce = (func: (...params: any) => void, delay: number) => {
 export const useDebounce = <T>(value: T, delay: number) => {
   const [debounceValue, setDebounceValue] = useState(value);
   useEffect(() => {
-    console.log("准备定义timeeout");
     // 当value改变时，设置一个定时器，在一定时间之后修改 value
     let timeout = setTimeout(() => {
       console.log("更新");
