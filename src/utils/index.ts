@@ -85,3 +85,17 @@ export const useDocumenTitle = (title: string) => {
     document.title = title;
   }, [title]);
 };
+
+// 判断组件是否卸载
+
+export const useMountedRef = () => {
+  const mountedRef = useRef(false);
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  return mountedRef;
+};
