@@ -28,6 +28,7 @@ export function ProjectListScreen({ users, refresh, ...props }: ListProps) {
   const columns: ColumnsType<Project> = [
     {
       title: <Pin checked={false} disabled={true} />,
+      align: "center",
       render(value, project) {
         return (
           <Pin checked={project.pin} onCheckedChange={pinProject(project.id)} />
